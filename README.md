@@ -70,9 +70,8 @@ cp -r skills/pdf-reader ~/.pi/agent/skills/
 - `rtk.ts` — rtk 래퍼 명령 연동
 - `status-widgets/` — 통합 커스텀 footer(토큰/캐시/컨텍스트/모델/확장 status) + 워크스페이스 위젯(git, GitHub 계정, 프로바이더 할당량/리셋/잔액)
 - `visual-tools/` — 서브에이전트용 Mermaid/SVG 작성·렌더 도구 (Learn 제작 에이전트용)
-- `observational-memory/` — stub, 실제 구현은 [pi-observational-memory](https://github.com/Verssae/pi-observational-memory) 참고
 
-웹 접근은 `npm:pi-web-access`가 담당. 폐기된 로컬 `web-fetch/`, `web-search/`는 `deprecated/extensions/`에 보관.
+`pi-observational-memory`는 이 디렉터리에 없다 — [Verssae/pi-observational-memory](https://github.com/Verssae/pi-observational-memory) fork가 `packages.json`의 `git:` 항목으로 설치된다. 웹 접근은 마찬가지로 `npm:pi-web-access`가 담당하며, 폐기된 로컬 `web-fetch/`, `web-search/`는 `deprecated/extensions/`에 보관된다.
 
 ### 스킬 (skills/)
 
