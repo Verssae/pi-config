@@ -1,32 +1,32 @@
-# filechanges (pi extension)
+# filechanges (pi 확장)
 
-Tracks files changed (modified/created) by **pi** via the built-in `edit` and `write` tools.
+내장 `edit` 및 `write` 도구를 통해 **pi가** 변경한 파일을 추적한다.
 
-## Features
+## 기능
 
-- Persistent log (stored in session as custom entries)
-- Status line + widget listing changed files
-- `/filechanges` overlay to inspect diffs
-- `/filechanges-accept` to clear the log (keep files)
-- `/filechanges-decline` to revert logged changes (restore original contents / delete created files)
+- 영속 로그 (세션에 커스텀 엔트리로 저장)
+- 변경된 파일을 나열하는 status line + 위젯
+- diff를 확인하는 `/filechanges` 오버레이
+- `/filechanges-accept`로 로그를 비움 (파일은 유지)
+- `/filechanges-decline`으로 기록된 변경을 되돌림 (원래 내용 복원 / 생성 파일 삭제)
 
-## Usage
+## 사용법
 
-1. Reload pi: `/reload`
-2. Make changes through pi (using `edit`/`write`)
-3. Run:
-   - `/filechanges` to inspect
-   - `/filechanges-accept` to accept (clear log)
-   - `/filechanges-decline` to decline (revert)
+1. pi reload: `/reload`
+2. pi를 통해 변경 수행(`edit`/`write` 사용)
+3. 실행:
+   - `/filechanges`로 확인
+   - `/filechanges-accept`로 수락 (로그 비우기)
+   - `/filechanges-decline`으로 거부 (되돌리기)
 
-### Non-interactive usage
+### 비인터랙티브 사용
 
-If `ctx.hasUI` is false (print/json mode), accept/decline require explicit confirmation:
+`ctx.hasUI`가 false인 경우 print/json 모드에서 수락/거부에 명시적 확인이 필요하다:
 
 - `/filechanges-accept force`
 - `/filechanges-decline force`
 
-## Notes
+## 참고
 
-- Only tracks changes performed through `edit` and `write` tools.
-- To support “decline”, the extension stores the original file contents (before the first pi change) in the session file as a custom entry.
+- `edit` 및 `write` 도구를 통해 수행된 변경만 추적한다.
+- "decline"을 지원하기 위해 pi가 처음 변경하기 **전에** 원래 파일 내용을 세션 파일에 커스텀 엔트리로 저장한다.

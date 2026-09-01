@@ -1,48 +1,38 @@
 # Prompt Snippets
 
-Mix-and-match single-purpose prompt rules that are prepended or appended to
-your message when you send it. Unlike skills, each snippet is a tiny,
-standalone instruction — toggle exactly the ones you want per message.
+메시지를 보낼 때 단일 목적의 프롬프트 규칙을 조합해 메시지 앞이나 뒤에 붙인다. 스킬과 달리 각 스니펫은 작고 독립적인 지시문이다 — 메시지마다 원하는 것만 정확히 토글한다.
 
-## Usage
+## 사용법
 
-- Press **alt+s** or run **/snippets** to open the toggle menu.
-  - `up`/`down` to navigate, `space` to toggle, `enter` to apply, `esc` to cancel.
-  - `tab` previews the highlighted snippet (name, placement, order, filename,
-    and full body; `up`/`down` scroll long bodies). `tab` or `esc` returns to
-    the list with your cursor position preserved.
-  - The menu is framed with top/bottom border lines and scrolls when the list
-    exceeds the viewport (max height adapts to your terminal), with
-    `↑ n more` / `↓ n more` indicators when clipped.
-- Active snippets show up as a widget above the editor:
-  - `↑ prepend: ...` (accent color) — inserted before your message
-  - `↓ append: ...` (warning color) — inserted after your message
-- When you send a message, active snippet bodies are merged into the message
-  text: prepend group (sorted by `order`) → your text → append group (sorted
-  by `order`), separated by blank lines.
-- Toggles reset to **all off** after each send and at session start.
+- **alt+s**를 누르거나 `/snippets`를 실행해 토글 메뉴를 연다.
+  - `up`/`down`으로 이동, `space`로 토글, `enter`로 적용, `esc`로 취소.
+  - `tab`은 선택된 스니펫을 미리 본다(이름, 위치, 순서, 파일명, 전체 본문; 긴 본문은 `up`/`down`으로 스크롤). `tab` 또는 `esc`를 누르면 커서 위치를 유지한 채 목록으로 돌아간다.
+  - 메뉴는 위/아래 테두리로 감싸지고 목록이 화면 높이를 넘으면 스크롤된다(터미널에 맞춰 최대 높이 조정). 잘린 경우 `↑ n more` / `↓ n more` 표시가 나온다.
+- 활성 스니펫은 editor 위의 위젯에 나타난다:
+  - `↑ prepend: ...` (accent 색) — 메시지 앞에 삽입
+  - `↓ append: ...` (warning 색) — 메시지 뒤에 삽입
+- 메시지를 보내면 활성 스니펫 본문이 다음 순서로 메시지 텍스트에 합쳐진다: prepend 그룹(`order`순 정렬) → 사용자 텍스트 → append 그룹(`order`순 정렬). 각 부분은 빈 줄로 구분된다.
+- 토글은 메시지를 보낸 뒤와 세션 시작 시 **모두 꺼짐**으로 초기화된다.
 
-## Snippet files
+## 스니펫 파일
 
-Snippets live in `snippets/` next to `index.ts` — one markdown file each,
-with frontmatter:
+스니펫은 `index.ts` 옆의 `snippets/`에 둔다 — 파일 하나당 마크다운 하나이며 frontmatter를 사용한다:
 
 ```markdown
 ---
-name: Concise
-description: Keep answers short and to the point
+name: 간결하게
+description: 답변을 짧고 핵심적으로 유지
 placement: prepend
 order: 10
 ---
-Keep your response concise. Skip preamble and unnecessary explanation.
+답변을 간결하게 작성하라. 서론과 불필요한 설명은 생략하라.
 ```
 
-| Field | Required | Notes |
+| 필드 | 필수 | 설명 |
 |---|---|---|
-| `name` | no | Display name; defaults to the filename without `.md` |
-| `description` | no | Shown next to the name in the toggle menu |
-| `placement` | no | `prepend` or `append` (default: `append`) |
-| `order` | no | Number; sorts snippets within their group, in the menu and in the applied text (default: `9999`, ties broken by name) |
+| `name` | 아니오 | 메뉴에 표시할 이름; 기본값은 `.md`를 뺀 파일명 |
+| `description` | 아니오 | 토글 메뉴에서 이름 옆에 표시 |
+| `placement` | 아니오 | `prepend` 또는 `append` (기본값: `append`) |
+| `order` | 아니오 | 숫자; 그룹 안에서 메뉴와 적용 텍스트의 스니펫 정렬 순서 (기본값 `9999`, 동률이면 이름순) |
 
-Files are re-scanned every time the menu opens and every time a message is
-sent, so edits take effect immediately — no `/reload` needed.
+파일은 메뉴를 열 때마다, 그리고 메시지를 보낼 때마다 다시 스캔된다. 따라서 수정 사항은 즉시 적용되고 `/reload`가 필요 없다.

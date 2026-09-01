@@ -1,21 +1,21 @@
 # Minimal Subagents
 
-A pi extension that registers a single `subagent` tool with three agents:
+세 에이전트를 가진 단일 `subagent` 도구를 등록하는 pi 확장:
 
-| Agent | Tools | Model | Purpose |
+| 에이전트 | 도구 | 모델 | 목적 |
 |-------|-------|-------|---------|
-| **scout** | read, grep, find, ls | claude-haiku-4-5 | Fast codebase recon |
-| **researcher** | web_search, web_fetch | claude-sonnet-4-6 | Web research |
-| **worker** | read, write, edit, safe_bash | claude-sonnet-4-6 | Code changes |
+| **scout** | read, grep, find, ls | claude-haiku-4-5 | 빠른 코드베이스 정찰 |
+| **researcher** | web_search, web_fetch | claude-sonnet-4-6 | 웹 리서치 |
+| **worker** | read, write, edit, safe_bash | claude-sonnet-4-6 | 코드 변경 |
 
-## Usage
+## 사용법
 
-**Single mode:**
+**단일 모드:**
 ```json
 { "agent": "scout", "task": "Find all auth-related files in src/" }
 ```
 
-**Parallel mode:**
+**병렬 모드:**
 ```json
 { "tasks": [
   { "agent": "scout", "task": "Map the database layer" },
@@ -23,11 +23,11 @@ A pi extension that registers a single `subagent` tool with three agents:
 ]}
 ```
 
-Max 4 concurrent subagents (configurable). Each runs as an isolated `pi` process with no inherited context — all context must be in the task description.
+최대 4개의 서브에이전트를 동시에 실행할 수 있다(설정 가능). 각각은 상속된 컨텍스트 없이 격리된 `pi` 프로세스로 실행되므로, 필요한 컨텍스트를 모두 task 설명에 넣어야 한다.
 
-## Config
+## 설정
 
-Optional `config.json` next to `index.ts`:
+`index.ts` 옆에 선택적 `config.json`을 둘 수 있다:
 
 ```json
 { "maxConcurrency": 4 }
@@ -35,38 +35,38 @@ Optional `config.json` next to `index.ts`:
 
 ## UI
 
-Default view shows medium detail (agent status, task preview, recent tools). Expand to see full task, all tool calls, complete output, and token usage.
+기본 화면은 중간 정도의 세부 정보(에이전트 상태, task 미리보기, 최근 도구)를 보여준다. 펼치면 전체 task, 모든 도구 호출, 완전한 출력, 토큰 사용량을 볼 수 있다.
 
-## Registering Agents from Other Extensions
+## 다른 확장에서 에이전트 등록
 
-Other extensions can dynamically register and unregister agents at runtime. This is useful for domain-specific agents that should only be available when a particular extension is active.
+다른 확장이 런타임에 에이전트를 동적으로 등록하고 해제할 수 있다. 특정 확장이 활성화됐을 때만 사용할 도메인별 에이전트에 유용하다.
 
-### 1. Define agent `.md` files
+### 1. 에이전트 `.md` 파일 정의
 
-Create markdown files with YAML frontmatter in your extension's directory (e.g. `my-extension/agents/my-agent.md`):
+확장 디렉터리에 YAML frontmatter가 있는 마크다운 파일을 만든다(예: `my-extension/agents/my-agent.md`):
 
 ```markdown
 ---
 name: my-agent
-description: Does a specific thing
+description: 특정 작업을 수행
 tools: web_search, video_extract
 model: claude-sonnet-4-20250514
 ---
 
-You are an agent that does a specific thing...
+특정 작업을 수행하는 에이전트다...
 ```
 
-Frontmatter fields:
-- **name** (required) — unique agent name, used in `{ agent: "my-agent" }` calls
-- **description** — short description
-- **tools** — comma-separated list of tools the agent needs (builtin or extension)
-- **model** — model identifier (defaults to `anthropic/claude-sonnet-4-6`)
+frontmatter 필드:
+- **name** (필수) — `{ agent: "my-agent" }` 호출에 사용하는 고유 에이전트 이름
+- **description** — 짧은 설명
+- **tools** — 에이전트에 필요한 도구의 쉼표 구분 목록(내장 또는 확장 도구)
+- **model** — 모델 식별자(기본값 `anthropic/claude-sonnet-4-6`)
 
-The markdown body becomes the agent's system prompt.
+마크다운 본문이 에이전트의 시스템 프롬프트가 된다.
 
-### 2. Register agents via `globalThis.__pi_subagents`
+### 2. `globalThis.__pi_subagents`로 에이전트 등록
 
-Pi loads extensions via jiti, which creates separate module instances. Direct imports from the subagents extension will reference a different `agents` array than the one the `subagent` tool uses. Use the `globalThis` bridge instead:
+Pi는 jiti를 통해 확장을 로드하므로 모듈 인스턴스가 분리된다. subagents 확장에서 직접 import하면 `subagent` 도구가 사용하는 `agents` 배열과 다른 배열을 참조하게 된다. 대신 `globalThis` 브리지를 사용한다:
 
 ```typescript
 import { parseFrontmatter } from "@mariozechner/pi-coding-agent";
@@ -88,7 +88,7 @@ function registerMyAgents(): void {
   const subagents = (globalThis as any).__pi_subagents as
     | { registerAgent: (config: AgentConfig) => void; unregisterAgent: (name: string) => void }
     | undefined;
-  if (!subagents) return; // subagents extension not loaded
+  if (!subagents) return; // subagents 확장이 로드되지 않음
 
   for (const entry of fs.readdirSync(AGENTS_DIR)) {
     if (!entry.endsWith(".md")) continue;
@@ -108,17 +108,17 @@ function registerMyAgents(): void {
         filePath,
       });
     } catch {
-      // Already registered — skip
+      // 이미 등록됨 — 건너뜀
     }
   }
 }
 ```
 
-Call `registerMyAgents()` when your extension activates (e.g. in a command handler). The agents become available to the `subagent` tool immediately.
+확장이 활성화될 때(예: 커맨드 핸들러에서) `registerMyAgents()`를 호출한다. 그러면 에이전트를 즉시 `subagent` 도구에서 사용할 수 있다.
 
-### 3. Adding custom tool support
+### 3. 커스텀 도구 지원 추가
 
-If your agents need tools beyond the built-in set, those tools must be mapped in the `CUSTOM_TOOL_EXTENSIONS` record in `subagents/index.ts`:
+에이전트가 내장 목록 외의 도구를 필요로 하면 `subagents/index.ts`의 `CUSTOM_TOOL_EXTENSIONS` 레코드에 매핑해야 한다:
 
 ```typescript
 const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
@@ -131,14 +131,14 @@ const CUSTOM_TOOL_EXTENSIONS: Record<string, string> = {
 };
 ```
 
-Built-in tools (`read`, `write`, `edit`, `bash`, `grep`, `find`, `ls`) work automatically. Any other tool the agent lists in its frontmatter must have a corresponding entry here pointing to the extension's `index.ts`.
+내장 도구(`read`, `write`, `edit`, `bash`, `grep`, `find`, `ls`)는 자동으로 동작한다. frontmatter에서 에이전트가 나열한 다른 도구는 각각 여기에 대응 항목이 있어야 하며, 그 도구의 `index.ts`를 가리켜야 한다.
 
-## Structure
+## 구조
 
 ```
 subagents/
-├── index.ts           # Extension entry point
-├── agents/            # Built-in agent configs (frontmatter + system prompt)
-└── tools/             # Extensions loaded into subagent processes
-    └── safe-bash.ts   # bash with dangerous command blocking
+├── index.ts           # 확장 진입점
+├── agents/            # 내장 에이전트 설정 (frontmatter + 시스템 프롬프트)
+└── tools/             # 서브에이전트 프로세스에 로드되는 확장
+    └── safe-bash.ts   # 위험한 명령을 차단하는 bash
 ```
