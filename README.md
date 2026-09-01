@@ -82,6 +82,8 @@ Web access is provided by `npm:pi-web-access`; the superseded local `web-fetch/`
 Extension-local npm deps are kept with the extension. Run `npm install` only in copied extensions that include a `package.json`:
 
 - `browser/` (also run `npx playwright install chromium` once)
+- `visual-tools/`
+- `interactive-subagents/`
 
 Optional system tools:
 
