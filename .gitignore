@@ -8,6 +8,14 @@ auth.json
 .pi/
 sessions/
 git/
+npm/
+missions/
+agent-mailboxes/
+bin/
+.memory/
+models-store.json
+trust.json
+lsp.json
 mcp-cache.json
 mcp-npx-cache.json
 run-history.jsonl

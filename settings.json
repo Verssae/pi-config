@@ -1,0 +1,49 @@
+{
+  "lastChangelogVersion": "0.84.4",
+  "theme": "maple-dark",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "medium",
+  "warnings": {
+    "anthropicExtraUsage": false
+  },
+  "enabledModels": [
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-terra",
+    "openai-codex/gpt-5.6-luna",
+    "deepseek/deepseek-v4-flash",
+    "deepseek/deepseek-v4-pro",
+    "openrouter/z-ai/glm-5.3-flash"
+  ],
+  "skills": [
+    "-skills/langchain-agents/SKILL.md",
+    "-skills/logic-pro-mcp-coach/SKILL.md",
+    "-skills/verify-build/SKILL.md",
+    "-skills/verify-design-system/SKILL.md",
+    "-skills/zagjs-design-system/SKILL.md",
+    "-skills/ip-as-logo/SKILL.md",
+    "-skills/pouch/references/recipes.md",
+    "-skills/shoal/SKILL.md"
+  ],
+  "observational-memory": {
+    "models": {
+      "observer": {
+        "provider": "openai-codex",
+        "id": "gpt-5.6-luna",
+        "thinking": "high"
+      },
+      "consolidator": {
+        "provider": "openai-codex",
+        "id": "gpt-5.6-sol",
+        "thinking": "medium"
+      }
+    }
+  },
+  "packages": [
+    "npm:pi-web-access",
+    "git:github.com/Verssae/pi-lsp-adapter",
+    "https://github.com/cathrynlavery/diagram-design",
+    "git:github.com/Verssae/pi-observational-memory",
+    "../../pi-config/extensions/interactive-subagents"
+  ]
+}

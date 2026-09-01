@@ -1,3 +1,4 @@
+import { spawn } from "node:child_process";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import {
 	Editor,
@@ -21,6 +22,22 @@ interface DisplayOption extends AskOption {
 	index?: number;
 	isOther?: boolean;
 	isSubmit?: boolean;
+}
+
+/** Fire-and-forget Herdr notification so the user notices a pending question. */
+function notifyHerdr(question: string): void {
+	if (process.env.HERDR_ENV !== "1") return;
+	try {
+		const child = spawn(
+			"herdr",
+			["notification", "show", "Pi · 답변 대기", "--body", question.slice(0, 200), "--sound", "request"],
+			{ stdio: "ignore" },
+		);
+		child.on("error", () => {});
+		child.unref();
+	} catch {
+		// Notifications are best-effort.
+	}
 }
 
 interface TextAnswer {
@@ -596,6 +613,8 @@ export default function askUserQuestion(pi: ExtensionAPI) {
 			if (!ctx.hasUI) {
 				return unavailableResult(params.question, mode, "ask_user_question requires interactive mode UI", context);
 			}
+
+			notifyHerdr(params.question);
 
 			return withUILock(async () => {
 				if (mode === "text") {

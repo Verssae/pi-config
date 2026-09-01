@@ -1,0 +1,7 @@
+[
+  "npm:pi-web-access",
+  "git:github.com/Verssae/pi-lsp-adapter",
+  "https://github.com/cathrynlavery/diagram-design",
+  "git:github.com/Verssae/pi-observational-memory",
+  "local:extensions/interactive-subagents"
+]

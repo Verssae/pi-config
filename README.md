@@ -8,9 +8,10 @@ The setup from [My Pi Setup After 6 Months](https://www.youtube.com/@EeroAlvar) 
 
 This is **not** meant to be installed as one big package. Browse the repo and copy the pieces you want into your own Pi config.
 
-Some extensions are big enough to live in their own repositories:
+Some extensions originate in their own repositories:
 
-- **[pi-interactive-subagents](https://github.com/amosblomqvist/pi-interactive-subagents)** — async, interactive subagents in multiplexer panes
+- **[pi-interactive-subagents](https://github.com/amosblomqvist/pi-interactive-subagents)** — vendored here with a Herdr pane backend instead of tmux
+- **[pi-web-access](https://github.com/nicobailon/pi-web-access)** — active web search, content extraction, and source verification package
 - **[pi-observational-memory](https://github.com/amosblomqvist/pi-observational-memory)** — tiered session memory with deterministic compaction
 - **[pi-dictate](https://github.com/amosblomqvist/pi-dictate)** — real-time voice dictation inside pi
 - **[learn](https://github.com/amosblomqvist/learn)** — my AI learning system, built on top of this config
@@ -57,14 +58,13 @@ Avoid cloning this repo directly into `~/.pi/agent` unless it is a fresh setup. 
 ### Extensions
 
 - `ask-user-question.ts` — the agent asks you a question through a UI popup; popups from different extensions serialize via a shared UI lock
-- `bash-guard/` — hooks that catch dangerous bash commands before they run, with an on/off toggle
 - `browser/` — Playwright-driven headless Chromium the agent can drive (navigate, eval JS, inspect network/console, click, screenshot); off by default, enable with `/browser on`
 - `custom-header.ts` — the big capital Π header
-- `interactive-subagents/` — stub, see [pi-interactive-subagents](https://github.com/amosblomqvist/pi-interactive-subagents)
+- `interactive-subagents/` — vendored [pi-interactive-subagents](https://github.com/amosblomqvist/pi-interactive-subagents), adapted to spawn and supervise agents in Herdr panes; install with `pi install /absolute/path/to/pi-config/extensions/interactive-subagents`
 - `observational-memory/` — stub, see [pi-observational-memory](https://github.com/amosblomqvist/pi-observational-memory)
 - `prompt-snippets/` — small, reusable behavior rules toggled onto a message before sending; reset after send
-- `web-fetch/` — fetch a URL and get clean markdown
-- `web-search/` — web search
+
+Web access is provided by `npm:pi-web-access`; the superseded local `web-fetch/` and `web-search/` extensions are archived under `deprecated/extensions/`.
 
 ### Skills
 
@@ -81,9 +81,7 @@ Avoid cloning this repo directly into `~/.pi/agent` unless it is a fresh setup. 
 
 Extension-local npm deps are kept with the extension. Run `npm install` only in copied extensions that include a `package.json`:
 
-- `bash-guard/`
 - `browser/` (also run `npx playwright install chromium` once)
-- `web-fetch/`
 
 Optional system tools:
 

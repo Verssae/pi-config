@@ -137,7 +137,7 @@ browser_eval      expression=document.body.innerHTML.length
 A blank screen with console errors is almost always a runtime JS error during
 render (React/Vue/Svelte tear down the tree on uncaught errors). A blank
 screen with *no* console errors and `innerHTML.length === 0` is a routing or
-build issue — fetch the page with `web_fetch` and check the served HTML.
+build issue — fetch the page with `fetch_content` in `raw` mode and check the served HTML.
 
 ### Reproduce in prod
 
@@ -192,7 +192,7 @@ These are the ones that have already bitten — internalize them.
 
 ## When *not* to reach for these tools
 
-- If you only need to read static content from a public URL, `web_fetch` is
+- If you only need to read static content from a public URL, `fetch_content` is
   faster (no browser launch, no profile state).
 - If the question is purely about source code, read the source. The browser
   doesn't tell you why a function was written, only what it does at runtime.
